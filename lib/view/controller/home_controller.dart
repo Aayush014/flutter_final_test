@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_final_test/view/helper/db_services.dart';
 import 'package:flutter_final_test/view/modal/notes_modal.dart';
@@ -22,7 +24,6 @@ class HomeController extends GetxController{
   Future<void> favoriteNotes()
   async {
     List data = await DbService.dbService.selectedNotes();
-
     modalList.value = data.map((e)=>NotesModal(e)).toList();
     modalList.refresh();
   }
@@ -30,7 +31,8 @@ class HomeController extends GetxController{
   void removeTheFavoriteNotes(int index)
   {
     modalList.clear();
-    DbService.dbService.removeNotes(modalList[index].note);
+    log(modalList[index].id.toString());
+    DbService.dbService.removeNotes(modalList[index].id!);
     favoriteNotes();
   }
 }

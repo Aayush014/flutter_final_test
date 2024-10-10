@@ -12,55 +12,59 @@ class FavoritePage extends StatelessWidget {
     HomeController homeController = Get.find();
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: ternaryColor,),
-        title: Text(
+        leading: const BackButton(
+          color: ternaryColor,
+        ),
+        title: const Text(
           'Favorite Notes',
           style: TextStyle(
             color: ternaryColor,
-            fontSize: 28,
+            fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
       ),
-      body: Obx(
-        () => (homeController.modalList.isEmpty)?Center(
-          child: Text(
-            'You select Note is Empty',
-            style: TextStyle(
-              color: ternaryColor,
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ):ListView.builder(
-          itemCount: homeController.modalList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: ListTile(
-                  title: Text(
-                    homeController.modalList[index].note,
-                    style: const TextStyle(color: ternaryColor),
+      body: GetBuilder<HomeController>(
+        builder: (controller) => (controller.modalList.isEmpty)
+            ? const Center(
+                child: Text(
+                  'You select Note is Empty',
+                  style: TextStyle(
+                    color: ternaryColor,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
                   ),
-                  subtitle: Text(
-                    homeController.modalList[index].description,
-                    style: const TextStyle(color: ternaryColor),
-                  ),
-                  trailing: IconButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: () {
-                        homeController.removeTheFavoriteNotes(index);
-                      },
-                      icon: const Icon(
-                        Icons.favorite,
-                        color: ternaryColor,
-                      )),
                 ),
+              )
+            : ListView.builder(
+                itemCount: controller.modalList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: ListTile(
+                        title: Text(
+                          controller.modalList[index].note,
+                          style: const TextStyle(color: ternaryColor),
+                        ),
+                        subtitle: Text(
+                          controller.modalList[index].description,
+                          style: const TextStyle(color: ternaryColor),
+                        ),
+                        trailing: IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              controller.removeTheFavoriteNotes(index);
+                            },
+                            icon: const Icon(
+                              Icons.favorite,
+                              color: ternaryColor,
+                            )),
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
     );
   }

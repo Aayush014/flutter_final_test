@@ -48,10 +48,10 @@ class DbService {
     return notes;
   }
 
-  Future<void> removeNotes(String note)
+  Future<void> removeNotes(int id)
   async {
     final data = await database;
-    String sql = 'DELETE FROM Notes WHERE notes = ?';
-    data!.rawDelete(sql,[note]);
+    String sql = 'DELETE FROM Notes WHERE id = ?';
+    data!.rawDelete(sql,[id]);
   }
 }
